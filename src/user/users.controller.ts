@@ -31,12 +31,12 @@ export class UsersController {
 
   @Get('profile')
   async getProfile(@Req() request: any): Promise<UserDto> {
-    const token = request.headers.authorization?.split(' ')[1];
+    //const token = request.headers.authorization?.split(' ')[1];
+    const token = request.headers.authorization[1];
     if (!token) {
       throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
     }
     const user = await this.usersService.findProfile(token);
-    console.log('User:', user);
     return UserMapper.mapToUserDto(user);
   }
 
@@ -45,7 +45,7 @@ export class UsersController {
     @Req() request: any,
     @Body() updateUserDto: UserDto,
   ): Promise<UserDto> {
-    const token = request.headers.authorization?.split(' ')[1];
+    const token = request.headers.authorization[1];
     if (!token) {
       throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
     }
